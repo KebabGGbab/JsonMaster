@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text;
 
-namespace KebabGGbab.Document.JsonMaster
+namespace JsonMaster
 {
     public static class ManipulatorJSON
     {
@@ -61,12 +61,9 @@ namespace KebabGGbab.Document.JsonMaster
             {
                 throw new ArgumentNullException(nameof(obj), "Оюъект должен быть инициализирован.");
             }
-            if (fileMode == FileMode.CreateNew)
+            if (fileMode == FileMode.CreateNew && File.Exists(path))
             {
-                if (File.Exists(path))
-                {
-                    throw new IOException($"Файл '{path}' уже существует.");
-                }
+                throw new IOException($"Файл '{path}' уже существует.");
             }
             using StreamWriter writer = new(File.Open(path, fileMode), encoding);
             writer.Write(JsonSerializer.Serialize(obj));
